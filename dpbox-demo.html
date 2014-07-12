@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="dpbox.css">
 		<title>DPboxJs</title>
 		<style>
 		.btn{
@@ -15,7 +16,6 @@
 			<blockquote>
 				<p><button id="demo" class="btn">点击查看效果</button></p>
 			</blockquote>
-			
 		</div>
 		<div>
 
@@ -27,7 +27,13 @@ $(selector).dpbox();
 		</pre>
 			</blockquote>
 		</div>
-		<div>
+		<div id="test"></div>
 		<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+		<script src="dpbox.js"></script>
+		<script>
+		jQuery(document).ready(function($) {
+		$('#test').dpbox({content:"helloworld,this is a content",title:"title"});	
+		});
+		</script>
 	</body>
 </html>
