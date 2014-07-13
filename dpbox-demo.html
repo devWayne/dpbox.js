@@ -32,7 +32,8 @@ $(selector).dpbox();
 		<script src="dpbox.js"></script>
 		<script>
 		jQuery(document).ready(function($) {
-		$('#test').dpbox({content:"helloworld,this is a content",title:"title"});	
+		var popbox = new dpbox('Modal',{title:'title',content:'content',overlay:true});
+		popbox.open();
 		});
 		</script>
 	</body>

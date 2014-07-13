@@ -1,60 +1,116 @@
-(function($) {
+//(function($) {
 
-	function dpbox(_appendTo, options) {
+function dpbox(type, options) {
 
-		this.wrapper = $(_appendTo).addClass('dpbox').css('display','none');
+	this.defaults = {
+		width: 'auto',
+		height: 'auto',
+		overlay:'false',
+		type: 'Modal'
+	}
+
+	this.opts = $.extend(this.opts, this.defaults,options);
+
+	this._create = function() {
+
+		if (this.container) return;
+
+		this.container = $('<div/>',{'class':'dpbox'}).css('display', 'none').appendTo($('body'));
+
+
+		this.header = $('<div/>', {
+			'class': 'dpbox-header'
+		}).appendTo(this.container);
 
 		this.title = $('<div/>', {
 			'class': 'dpbox-title'
-		}).appendTo(this.wrapper);
+		}).appendTo(this.header).css('display', 'inline');
 
-		this.container = $('<div/>', {
-			'class': 'dpbox-container'
-		}).appendTo(this.wrapper);
+		this.clzBtn = $('<div/>', {
+			'class': 'dpbox-clzBtn'
+		}).appendTo(this.header).html('X').css('display', 'inline').on('click',this.close.bind(this));
 
 		this.content = $('<div/>', {
 			'class': 'dpbox-content'
 		}).css({
-			width: options.width,
-			height: options.height
+			width: this.opts.width,
+			height: this.opts.height
 		}).appendTo(this.container);
 
-		this.setTitle(options.title);
-		this.setContent(options.content);
-		//this.show(this.wrapper);
+
+		this.setTitle(this.opts.title);
+		this.setContent(this.opts.content);
+		//this.show(this.container);
+	};
+	//this._create();
+
+	if (!this.container) {
+		this._create();
 	}
+}
 
-	dpbox.prototype.setContent = function(content) {
-		if (content == null && !this.wrapper) return;
-		this.content.html(content);
-	}
+dpbox.prototype.setContent = function(content) {
+	if (content == null && !this.container) return;
+	this.content.html(content);
+}
 
-	dpbox.prototype.setTitle = function(title) {
-		if (title == null && !this.wrapper) return;
-		this.title.html(title);
-	}
+dpbox.prototype.setTitle = function(title) {
+	if (title == null && !this.container) return;
+	this.title.html(title);
+}
 
 
-	dpbox.prototype.open = function() {
-		var top = ($(window).height() - $(this.wrapper).height()) / 2;
-		var left = ($(window).width() - $(this.wrapper).width()) / 2;
+dpbox.prototype.open = function(options) {
+
+	var opts=this.opts;
+	var open = function() {
+		var top = ($(window).height() - $(this.container).height()) / 2;
+		var left = ($(window).width() - $(this.container).width()) / 2;
 		var scrollTop = $(document).scrollTop();
 		var scrollLeft = $(document).scrollLeft();
-		$(this.wrapper).css({
+		$(this.container).css({
 			position: 'absolute',
 			'top': top + scrollTop,
 			'left': left + scrollLeft
 		}).show();
-	}
+	}.bind(this);
 
-	$.fn.dpbox = function(options) {
-		options || (options = {});
-		return new dpbox(this, $.extend(options, $.fn.dpbox.defaults));
-	}
+	if (!this.Opening) {
+		this.Opening = !this.Opening;
+		if(opts.overlay){
+			$('<div id="_overlay_" style="background-color: rgb(0, 0, 0); border-top-width: 1px; border-top-style: solid; border-top-color: rgb(0, 0, 0); position: absolute; height: 1557px;width: 100%; left: 0px; top: 0px; opacity: 0.7; tp-a"></div>').appendTo($('body'));
 
-	$.fn.dpbox.defaults = {
-		width: 'auto',
-		height: 'auto'
+		}
+		open();
+	} else {
+		open();
 	}
+}
 
-})(jQuery)
+dpbox.prototype.close = function() {
+	var close = function() {
+
+	};
+	if (this.Opening) {
+		this.Opening = !this.Opening;
+		this.container.css({
+			display: 'none',
+			//opacity: 0
+		});
+	} else {
+		this.container.css({
+			display: 'none',
+			opacity: 0
+		});
+	}
+	//close();
+}
+
+$.fn.dpbox = function(type, options) {
+	options || (options = {});
+	return new dpbox(type, $.extend(options, $.fn.dpbox.defaults));
+}
+
+
+
+//})(jQuery)
