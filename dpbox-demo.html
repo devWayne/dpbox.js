@@ -22,18 +22,19 @@
 			<blockquote>
 				<h2>使用说明</h2>
         <pre>
-//快速使用
-$(selector).dpbox();
+var popbox = new dpbox('Modal',{title:'Title',content:'content',overlay:true,btn:'Confirm',width:'200px'});
+popbox.open();
 		</pre>
 			</blockquote>
 		</div>
-		<div id="test"></div>
 		<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 		<script src="dpbox.js"></script>
 		<script>
 		jQuery(document).ready(function($) {
-		var popbox = new dpbox('Modal',{title:'title',content:'content',overlay:true});
-		popbox.open();
+		var popbox = new dpbox('Modal',{title:'Title',content:'content',overlay:true,btn:'Confirm',width:'200px'});
+		$('#demo').click(function(){
+			popbox.open();
+		});
 		});
 		</script>
 	</body>
