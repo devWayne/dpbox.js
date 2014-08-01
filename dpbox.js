@@ -121,7 +121,7 @@ dpbox.prototype.close = function() {
 	//close();
 }
 
-$.fn.dpbox = function(type, options) {
+$.dpbox = function(type, options) {
 	options || (options = {});
 	return new dpbox(type, $.extend(options, $.fn.dpbox.defaults));
 }
